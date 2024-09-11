@@ -1,0 +1,33 @@
+services:
+  postgresql:
+    image: docker.io/bitnami/postgresql:latest
+    ports:
+      - '5432:5432'
+    volumes:
+      - 'postgresql_data:/bitnami/postgresql'
+    environment:
+      - 'POSTGRES_USER=docker'
+      - 'POSTGRES_PASSWORD=docker'
+      - 'POSTGRES_DB=docker'
+    networks:
+      someone-network:
+        ipv4_address: 172.18.0.160
+
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    ports:
+      - '8081:80'
+    environment:
+      - 'PGADMIN_DEFAULT_EMAIL=email@pgadmin'
+      - 'PGADMIN_DEFAULT_PASSWORD=pgadmin'
+    networks:
+      someone-network:
+        ipv4_address: 172.18.0.161
+
+volumes:
+  postgresql_data:
+    driver: local
+
+networks:
+  someone-network:
+    external: true
